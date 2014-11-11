@@ -818,6 +818,9 @@ func (p *printer) marshalStruct(tinfo *typeInfo, val reflect.Value) error {
 			}
 
 		case fElement, fElement | fAny:
+			if finfo.flags&fOmitEmpty != 0 && isEmptyValue(vf) {
+				continue
+			}
 			if err := s.trim(finfo.parents); err != nil {
 				return err
 			}
